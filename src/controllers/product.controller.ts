@@ -15,6 +15,7 @@ export const getProducts = async (req: any, res: any) => {
     const resourcesHeader = response.headers.get("resources");
     if (resourcesHeader) {
       res.setHeader("resources", resourcesHeader);
+      res.setHeader("Access-Control-Expose-Headers", "resources");
     }
 
     res.status(response.status).json(data);
