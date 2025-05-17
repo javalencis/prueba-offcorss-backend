@@ -2,8 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../../models/user.model";
 
-const SECRET_KEY = process.env.JWT_SECRET || "supersecreto123"; // mejor usa env
-
+const SECRET_KEY = process.env.JWT_SECRET || "supersecreto123"; 
 export const resolvers = {
   Mutation: {
     registerUser: async (_: any, { input }: any) => {
@@ -72,6 +71,37 @@ export const resolvers = {
           createdAt: user.createdAt,
         },
       };
+    },
+    updateUser: async (_: any, { input }: any, context: any) => {
+      const token = context.req.headers.authorization?.split(" ")[1];
+      if (!token) throw new Error("No autenticado.");
+
+      try {
+        const decoded: any = jwt.verify(token, SECRET_KEY);
+        const userId = decoded.id;
+
+        const updatedUser = await User.findByIdAndUpdate(
+          userId,
+          { $set: input },
+          { new: true } 
+        );
+
+        if (!updatedUser) {
+          throw new Error("Usuario no encontrado.");
+        }
+
+        return {
+          id: updatedUser._id,
+          username: updatedUser.username,
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          email: updatedUser.email,
+          createdAt: updatedUser.createdAt,
+        };
+      } catch (err) {
+        console.error(err);
+        throw new Error("Error actualizando el usuario.");
+      }
     },
   },
 };

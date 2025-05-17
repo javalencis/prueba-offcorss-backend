@@ -16,10 +16,14 @@ app.use("/api", routesProduct);
 async function startServer() {
   await connectDB();
 
-  const apolloServer = new ApolloServer({ typeDefs, resolvers });
+  const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => ({ req }),
+  });
 
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app: app as any, path: "/graphql" })
+  apolloServer.applyMiddleware({ app: app as any, path: "/graphql" });
 
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);

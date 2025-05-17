@@ -27,10 +27,16 @@ export const typeDefs = gql`
     email: String!
     password: String!
   }
-
+  input UpdateUserInput {
+    username: String
+    firstName: String
+    lastName: String
+    email: String
+  }
   type Mutation {
     registerUser(input: RegisterInput!): User!
     loginUser(input: LoginInput!): AuthPayload!
+    updateUser(input: UpdateUserInput!): User!
   }
 
   type Query {

@@ -9,7 +9,7 @@ export const authenticateToken = (
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     res.status(401).json({ error: "Token requerido" });
-    return; // Solo retorna para cortar ejecución, pero NO retornes el response
+    return;
   }
 
   const token = authHeader.split(" ")[1];
@@ -19,6 +19,6 @@ export const authenticateToken = (
     next();
   } catch (err) {
     res.status(403).json({ error: "Token inválido" });
-    return; // Igual, corta la ejecución sin retornar el response
+    return; 
   }
 };
