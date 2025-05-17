@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getProductById, getProducts } from "../controllers/product.controller";
+import { authenticateToken } from "../middleware/authMiddleware";
 
 
 
