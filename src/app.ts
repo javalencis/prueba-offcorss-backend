@@ -20,14 +20,15 @@ async function startServer() {
     typeDefs,
     resolvers,
     context: ({ req }) => ({ req }),
+    cache: "bounded"
   });
 
   await apolloServer.start();
   apolloServer.applyMiddleware({ app: app as any, path: "/graphql" });
 
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`🧠 GraphQL ready at http://localhost:${PORT}/graphql`);
+    console.log(`Server running`);
+    console.log(`GraphQL ready `);
   });
 }
 
